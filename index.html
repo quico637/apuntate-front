@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student List</title>
+    <style>
+        /* Style for the student list */
+        #student-list {
+            max-height: 300px; /* Set a fixed maximum height for the list */
+            overflow-y: auto; /* Add a vertical scrollbar when content overflows */
+            border: 1px solid #ccc; /* Add a border for clarity */
+            padding: 10px; /* Add padding for aesthetics */
+        }
+    </style>
+</head>
+<body>
+    <h1>Student List</h1>
+    <ul id="student-list">
+        <!-- List of students will be displayed here -->
+    </ul>
+    <h2>Add New Student</h2>
+    <form id="student-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <script>
+        // JavaScript code to handle form submission
+        const studentForm = document.getElementById("student-form");
+        const studentList = document.getElementById("student-list");
+
+        studentForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Get form input values
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+
+            // Create a new list item to display the student
+            const listItem = document.createElement("li");
+            listItem.textContent = `Name: ${name}, Age: ${age}`;
+
+            // Append the list item to the student list
+            studentList.appendChild(listItem);
+
+            // Reset the form fields
+            studentForm.reset();
+        });
+    </script>
+</body>
+</html>

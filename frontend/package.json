@@ -1,0 +1,23 @@
+{
+  "name": "apuntate",
+  "version": "1.0.0",
+  "description": "apúntate",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quico637/apuntate.git"
+  },
+  "author": "quico boix martinez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/quico637/apuntate/issues"
+  },
+  "homepage": "https://github.com/quico637/apuntate#readme",
+  "dependencies": {
+    "jest-cli": "^29.7.0"
+  }
+}
