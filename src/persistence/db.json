@@ -1,0 +1,63 @@
+{
+  "students": [
+    {
+      "name": "as",
+      "age": "12",
+      "id": 2
+    }
+  ],
+  "meetings": [
+    {
+      "startHour": "23:17",
+      "endHour": "03:14",
+      "interval": "1",
+      "studentsPerInterval": "1",
+      "meetingDate": "2023-12-09",
+      "group": "group1",
+      "subject": "as",
+      "teacher": "as",
+      "location": "as",
+      "meetingName": "aa",
+      "id": 1
+    },
+    {
+      "startHour": "23:27",
+      "endHour": "23:27",
+      "interval": "1",
+      "studentsPerInterval": "1",
+      "meetingDate": "",
+      "group": "group1",
+      "subject": "22",
+      "teacher": "22",
+      "location": "222",
+      "meetingName": "222",
+      "id": 2
+    },
+    {
+      "startHour": "23:27",
+      "endHour": "23:27",
+      "interval": "1",
+      "studentsPerInterval": "1",
+      "meetingDate": "2023-11-14",
+      "group": "group1",
+      "subject": "22",
+      "teacher": "22",
+      "location": "222",
+      "meetingName": "222",
+      "id": 3
+    },
+    {
+      "startHour": "23:27",
+      "endHour": "23:27",
+      "interval": "1",
+      "studentsPerInterval": "1",
+      "meetingDate": "2023-11-16",
+      "group": "group1",
+      "subject": "22",
+      "teacher": "22",
+      "location": "222",
+      "meetingName": "reuinion 2",
+      "id": 5
+    }
+  ]
+}
