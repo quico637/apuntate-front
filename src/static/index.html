@@ -62,6 +62,7 @@
 
   <div id="agenda-view" style="display: none;">
 
+
     <div id="agenda">
       <div id="calendario">
         <h1 id="cabecera"></h1>
@@ -74,9 +75,15 @@
 
         </ul>
       </div>
-    </div>
 
-    <div class="container">
+    </div>
+    <button type="button" class="btn btn-outline-primary" id="addMeeting-btn">+</button>
+
+
+
+
+    <!-- MEETING -->
+    <div id="add-meetingForm" class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8 form-container">
           <h2 class="text-center mb-4">Create new Meeting</h2>
@@ -163,6 +170,93 @@
     </div>
 
 
+
+    <!-- MEETING EDIT -->
+    <div id="edit-meetingForm-edit" class="container" style="display: none;">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 form-container">
+          <h2 id="editMeeting-title" class="text-center mb-4">Create new Meeting</h2>
+
+          <form id="meetingForm-edit">
+            <div class="row">
+              <!-- Meeting Name -->
+              <div class="col-md-6 mb-3">
+                <label for="meetingName" class="form-label">Meeting Name</label>
+                <input type="text" class="form-control" id="meetingName-edit" required>
+              </div>
+
+              <!-- Location -->
+              <div class="col-md-6 mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="meeting-location-edit" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Teacher -->
+              <div class="col-md-4 mb-3">
+                <label for="teacher" class="form-label">Teacher</label>
+                <input type="text" class="form-control" id="meeting-teacher-edit" required>
+              </div>
+
+              <!-- Subject -->
+              <div class="col-md-4 mb-3">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" class="form-control" id="meeting-subject-edit" required>
+              </div>
+
+              <!-- Group Selector -->
+              <div class="col-md-4 mb-3">
+                <label for="groupSelector-student" class="form-label">Select Group</label>
+                <select class="form-select" id="meeting-groupSelector-edit" required>
+                  <option value="1">Group 1</option>
+                  <option value="2">Group 2</option>
+                  <option value="3">Group 3</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Date -->
+              <div class="col-md-4 mb-3">
+                <label for="meetingDate" class="form-label">Date</label>
+                <input type="date" class="form-control" id="meetingDate-edit" required>
+              </div>
+
+              <!-- Start Hour -->
+              <div class="col-md-4 mb-3">
+                <label for="startHour" class="form-label">Start Hour</label>
+                <input type="time" class="form-control" id="startHour-edit" required>
+              </div>
+
+              <!-- End Hour -->
+              <div class="col-md-4 mb-3">
+                <label for="endHour" class="form-label">End Hour</label>
+                <input type="time" class="form-control" id="endHour-edit" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Intervalos -->
+              <div class="col-md-6 mb-3">
+                <label for="interval" class="form-label">Intervalos</label>
+                <input type="number" class="form-control" id="interval-edit" required>
+              </div>
+
+              <!-- Alumnos por intervalo -->
+              <div class="col-md-6 mb-3">
+                <label for="studentsPerInterval" class="form-label">Alumnos por intervalo</label>
+                <input type="number" class="form-control" id="studentsPerInterval-edit" required>
+              </div>
+
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary" id="meetingSubmitButton-edit">Edit Meeting</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="student-view" class="container mt-5" style="display: none;">
