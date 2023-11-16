@@ -1,8 +1,34 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+
+
+    function removeItemByCustomAttribute(list, customAttributeValue) {
+        // Get the unordered list element
+        var myList = document.getElementById(list);
+
+        // Find the list item with the specified data-custom-id attribute
+        var itemToRemove = Array.from(myList.children).find(function (item) {
+            return item.getAttribute("id") === customAttributeValue;
+        });
+
+        // Check if the item was found
+        if (itemToRemove) {
+            // Remove the found list item
+            myList.removeChild(itemToRemove);
+        } else {
+            console.error("Item not found with data-custom-id: " + customAttributeValue);
+        }
+    }
+
+
+    /* STUDENT */
+
+
+
     // JavaScript code to handle form submission
     const studentForm = document.getElementById("student-form");
+    const editStudentForm = document.getElementById("editStudent-form");
     const studentList = document.getElementById("student-list");
 
 
@@ -53,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // removeButton.className = "btn btn-danger";
 
         updateButton.addEventListener("click", () => {
-            alert(`Update Student: Name - ${name}, Age - ${age}`);
+            
+            displayEditStudent(studentInfo.textContent, id);
         });
 
         removeButton.addEventListener("click", () => {
@@ -80,11 +107,15 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const name = document.getElementById("name").value;
         const age = document.getElementById("age").value;
+        const subject = document.getElementById("subject").value;
+        const group = document.getElementById("groupSelector-student").value;
 
 
         const data = {
-            name : name,
-            age : age
+            name,
+            age,
+            subject,
+            group
         }
 
         fetch("http://localhost:3000/students/", {
@@ -108,13 +139,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    /* TEACHER */
+
+
     const teacherForm = document.getElementById("teacher-form");
+    const editTeacherForm = document.getElementById("editTeacher-form");
     const teacherList = document.getElementById("teacher-list");
 
-    function createTeacherListItem(name, age) {
+    const teachers = fetch("http://localhost:3000/teachers/", {
+        method : "GET"
+    }).then(response => response.json())
+    .then(data => {
+
+        // Loop through each item in the array
+        data.forEach(item => {
+            // Do something with each item
+            console.log(item);
+            console.log("array")
+        
+            const listItem = createTeacherListItem(item.name, item.age, item.id);
+            teacherList.appendChild(listItem);
+            teacherForm.reset();
+
+        });
+    })
+
+
+    function createTeacherListItem(name, age, id) {
         const listItem = document.createElement("li");
         listItem.className = "list-group-item d-flex justify-content-between align-items-center";
 
+        listItem.setAttribute('id', id);
         const teacherInfo = document.createElement("span");
         teacherInfo.textContent = `${name}`;
 
@@ -136,11 +191,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // removeButton.className = "btn btn-danger";
 
         updateButton.addEventListener("click", () => {
-            alert(`Update Teacher: Name - ${name}, Age - ${age}`);
+            
+            displayEditTeacher(teacherInfo.textContent, id);
         });
 
         removeButton.addEventListener("click", () => {
+            const id = listItem.getAttribute('id');
             listItem.remove();
+            fetch(`http://localhost:3000/teachers/${id}`, {
+                method : "DELETE"
+            })
+            .then(response => response.json())
+            .then(datos => console.log(datos));
         });
 
         buttonsDiv.appendChild(updateButton);
@@ -156,11 +218,52 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const name = document.getElementById("name-teacher").value;
         const age = document.getElementById("age-teacher").value;
+        const subject = document.getElementById("subject-teacher").value;
+        const groups = [];
 
-        const listItem = createTeacherListItem(name, age);
-        teacherList.appendChild(listItem);
-        teacherForm.reset();
+        const g1 = document.getElementById("teacher-cbox-g1")
+        const g2 = document.getElementById("teacher-cbox-g2")
+        const g3 = document.getElementById("teacher-cbox-g3")
+
+        if (g1.checked)
+            groups.push(1);
+        
+        if (g2.checked)
+            groups.push(2);
+
+        if (g3.checked)
+            groups.push(3);
+
+
+        const data = {
+            name,
+            age,
+            subject,
+            groups
+        }
+
+        fetch("http://localhost:3000/teachers/", {
+            method : "POST",
+            body : JSON.stringify(data),
+            headers : {
+                "Content-type" : "application/json"
+            },
+        })
+        .then(response => response.json())
+        .then(datos => {
+            console.log(datos)
+            console.log("POSTTT")
+            console.log(`datos.id = ${datos.id}`)
+            const listItem = createTeacherListItem(name, age, datos.id);
+            teacherList.appendChild(listItem);
+            teacherForm.reset();
+        });
     });
+
+
+
+
+    /* VIEWS */
 
 
     // JavaScript code to switch between views
@@ -197,6 +300,160 @@ document.addEventListener('DOMContentLoaded', () => {
         presentacionView.style.display = "block";
     }
 
+    // inside student's view
+
+
+
+    const studentAdd = document.getElementById("addStudent-form");
+    const studentEdit = document.getElementById("editStudent-form");
+
+    const studentAddBtn = document.getElementById("addStudent-btn");
+    studentAddBtn.addEventListener("click", displayAddStudent);
+
+    function displayEditStudent(name, id) {
+        const editTeacherTitle = document.getElementById("editStudent-title");
+        editTeacherTitle.setAttribute("id", id);
+        editTeacherTitle.textContent = `Edit student ${name}`;
+
+        editStudentForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const name = document.getElementById("name-edit").value;
+            const age = document.getElementById("age-edit").value;
+            const subject = document.getElementById("subject-edit").value;
+            const groups = [];
+    
+    
+            const g1 = document.getElementById("student-cbox-g1-edit");
+            const g2 = document.getElementById("student-cbox-g2-edit");
+            const g3 = document.getElementById("student-cbox-g3-edit");
+    
+            
+    
+            if (g1.checked)
+                groups.push(1);
+            
+            if (g2.checked)
+                groups.push(2);
+    
+            if (g3.checked)
+                groups.push(3);
+    
+    
+            const data = {
+                name,
+                age,
+                subject,
+                groups
+            }
+    
+            fetch(`http://localhost:3000/teachers/${id}`, {
+                method : "PUT",
+                body : JSON.stringify(data),
+                headers : {
+                    "Content-type" : "application/json"
+                },
+            })
+            .then(response => response.json())
+            .then(datos => {
+                console.log(datos)
+                console.log("PUTTT")
+                console.log(`datos.id = ${datos.id}`)
+                const listItem = createTeacherListItem(name, age, datos.id);
+                teacherList.appendChild(listItem);
+                teacherForm.reset();
+            });
+
+
+            removeItemByCustomAttribute("teacher-list", id);
+        });
+
+
+        studentAdd.style.display = "none";
+        studentEdit.style.display = "block";
+    }
+
+
+
+    function displayAddStudent() {
+        studentAdd.style.display = "block";
+        studentEdit.style.display = "none";
+    }
+
+
+    // inside teacher view
+
+    const teacherAdd = document.getElementById("addTeacher-form");
+    const teacherEdit = document.getElementById("editTeacher-form");
+    const editTeacherTitle = document.getElementById("editTeacher-title");
+
+    const teacherAddBtn = document.getElementById("addTeacher-btn");
+    teacherAddBtn.addEventListener("click", displayAddTeacher);
+
+    function displayEditTeacher(name, id) {
+
+        editTeacherTitle.setAttribute("id", id);
+        editTeacherTitle.textContent = `Edit teacher ${name}`;
+
+        editTeacherForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const name = document.getElementById("name-teacher-edit").value;
+            const age = document.getElementById("age-teacher-edit").value;
+            const subject = document.getElementById("subject-teacher-edit").value;
+            const groups = [];
+    
+    
+            const g1 = document.getElementById("teacher-cbox-g1-edit");
+            const g2 = document.getElementById("teacher-cbox-g2-edit");
+            const g3 = document.getElementById("teacher-cbox-g3-edit");
+    
+            
+    
+            if (g1.checked)
+                groups.push(1);
+            
+            if (g2.checked)
+                groups.push(2);
+    
+            if (g3.checked)
+                groups.push(3);
+    
+    
+            const data = {
+                name,
+                age,
+                subject,
+                groups
+            }
+    
+            fetch(`http://localhost:3000/teachers/${id}`, {
+                method : "PUT",
+                body : JSON.stringify(data),
+                headers : {
+                    "Content-type" : "application/json"
+                },
+            })
+            .then(response => response.json())
+            .then(datos => {
+                console.log(datos)
+                console.log("PUTTT")
+                console.log(`datos.id = ${datos.id}`)
+                const listItem = createTeacherListItem(name, age, datos.id);
+                teacherList.appendChild(listItem);
+                teacherForm.reset();
+            });
+        });
+
+
+        teacherAdd.style.display = "none";
+        teacherEdit.style.display = "block";
+    }
+
+    function displayAddTeacher() {
+        teacherAdd.style.display = "block";
+        teacherEdit.style.display = "none";
+    }
+
+
     // Add event listeners to navigation links
     const studentListLink = document.querySelector('a[href="#student-view"]');
     const addStudentLink = document.querySelector('a[href="#teacher-view"]');
@@ -216,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
 
 const reunionesElement = document.getElementById("reuniones");
 const cabeceraElement = document.getElementById("cabecera");
@@ -346,6 +604,8 @@ submitMettingButton.addEventListener("click", function (e) {
     const location = document.getElementById("location").value;
     const meetingName = document.getElementById("meetingName").value;
 
+    const meetingForm = document.getElementById("meetingForm");
+
     const data = {
         startHour,
         endHour,
@@ -371,7 +631,7 @@ submitMettingButton.addEventListener("click", function (e) {
         console.log(datos)
         // const listItem = createMeetingListItem(meetingName, startHour, endHour, datos.id);
         // meetingList.appendChild(listItem);
-        // // meetingForm.reset();
+        meetingForm.reset();
     });
 
 });
